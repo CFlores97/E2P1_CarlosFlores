@@ -21,14 +21,16 @@ public class Numero {
 
         return correspondingChar;
     }
-    
-    public int charToNum(char correspChar){
+
+    public int charToNum(char correspChar) {
         int num = 0;
-        
-        if(correspChar <= 97 && correspChar >= 122){
+
+        if (correspChar <= 122 && correspChar >= 97) {
             num = correspChar - 87;
+        }else if(correspChar <= 57 && correspChar >= 48){
+            num = correspChar - 48;
         }
-        
+
         return num;
     }
 
@@ -39,29 +41,16 @@ public class Numero {
 
         while (base <= dec) {
             resultado = dec / base;
-            residuo += dec % base;
+            residuo += numToChar(dec%base);
 
             dec = resultado;
 
         }
-
-        char result_converted = numToChar(resultado);
-        if (resultado >= 10 && resultado <= 35) {
-            legitResiduo += result_converted;
-        } else {
-            legitResiduo += resultado;
-        }
-
-        int resi = Integer.parseInt(residuo);
-        char char_converted = numToChar(resi);
-
-        if (resi >= 10 && resi <= 35) {
-            legitResiduo += char_converted;
-        } else if (resi < 10 || resi > 35){
-            for (int i = residuo.length() - 1; i >= 0; i--) {
-                legitResiduo += residuo.charAt(i);
-            }
-
+        
+        legitResiduo += numToChar(resultado);
+        for (int i = residuo.length() - 1; i >= 0; i--) {
+            legitResiduo += residuo.charAt(i);
+            
         }
 
         return legitResiduo;
@@ -69,11 +58,19 @@ public class Numero {
 
     public int baseToDec(String cadena) {
         int new_base = 0;
-        
+
         for (int i = cadena.length() - 1; i >= 0; i--) {
             int power = cadena.length() - 1 - i;
-            new_base += cadena.charAt(i) * Math.pow(base, power);
+            new_base += charToNum(cadena.charAt(i)) * Math.pow(base, power);
         }
         return new_base;
+    }
+
+    public int getBase() {
+        return base;
+    }
+
+    public String getNumero() {
+        return numero;
     }
 }
